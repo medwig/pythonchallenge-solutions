@@ -10,17 +10,21 @@ NUMBERS = {
     "two": 2
 }
 
+def replace_path_end(url, newEnd):
+    newUrl = url.split('/')
+    newUrl[-1] = newEnd 
+    return '/'.join(newUrl)
+
+
 # Get the input data from the problem webpage
-url = 'http://www.pythonchallenge.com/pc/def/linkedlist.php'
-with urllib.request.urlopen(url) as response:
+URL = 'http://www.pythonchallenge.com/pc/def/linkedlist.php'
+with urllib.request.urlopen(URL) as response:
    html = response.read().decode('utf-8')
 data = re.findall(r'a href="(.*)">', html)[0]
 print(f'Input data:\n{data}\n')
 
 # The problem input data is a url - follow it
-newUrl = url.split('/')
-newUrl[-1] = data
-newUrl = '/'.join(newUrl)
+newUrl = replace_path_end(URL, data)
 with urllib.request.urlopen(newUrl) as response:
    html = response.read().decode('utf-8')
 print(f'Input data link reads:\n{html}\n')
@@ -52,9 +56,7 @@ for i in range(400):
 print(f'\nTarget found in linked list:\n{target}\n')
 
 # Build the solution url by replacing the path end with the anagram
-solution = url.split('/')
-solution[-1] = target
-solution = '/'.join(solution)
+solution = replace_path_end(URL, target)
 
 print(f'Url solution page:\n{solution}\n')
 
